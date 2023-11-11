@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Notiflix from 'notiflix';
 import { FormTitle, StyledForm, InputBox, InputLabel, StyledField, SubmitBtn, Error } from './ContactsForm.styled';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 import { addContact } from 'redux/operations';
 
 const ContactSchema = Yup.object().shape({
@@ -26,7 +26,7 @@ const ContactSchema = Yup.object().shape({
  });
 
 export const ContactsForm = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const onSubmitForm = (values, helpers) => {
