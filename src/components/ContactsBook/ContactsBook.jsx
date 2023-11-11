@@ -7,7 +7,6 @@ import { getContacts, getFilter } from "redux/selectors";
 export const ContactsBook = () => {
   const filter = useSelector(getFilter);
   const contacts = useSelector(getContacts);
-  console.log(contacts);
 
   const getVisibleContacts = useMemo(() => {
     const normalizedFilter = filter.toLowerCase();

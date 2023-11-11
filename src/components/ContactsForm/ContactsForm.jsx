@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import Notiflix from 'notiflix';
 import { FormTitle, StyledForm, InputBox, InputLabel, StyledField, SubmitBtn, Error } from './ContactsForm.styled';
 import { getContacts } from 'redux/selectors';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
@@ -16,13 +16,13 @@ const ContactSchema = Yup.object().shape({
       .min(3, 'Too short contact name!')
       .max(50, 'Too long contact name!')
       .required('Required'),
-   number: Yup.string()
+  phone: Yup.string()
       .trim()
       .matches(
         /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
         'Invalid phone number format'
       )
-     .required('Required'),
+      .required('Required'),
  });
 
 export const ContactsForm = () => {
@@ -42,7 +42,7 @@ export const ContactsForm = () => {
 
   return (
     <Formik
-      initialValues={{ name: '', number: '' }}
+      initialValues={{ name: '', phone: '' }}
       validationSchema={ContactSchema}
       onSubmit={onSubmitForm}
     >
@@ -54,9 +54,9 @@ export const ContactsForm = () => {
           <Error component='p' name="name" />
         </InputBox>
         <InputBox>
-          <StyledField type="tel" autoComplete="off" name="number" required />
+          <StyledField type="tel" autoComplete="off" name="phone" required />
           <InputLabel>Phone</InputLabel>
-          <Error component='p' name="number" />
+          <Error component='p' name="phone" />
         </InputBox>
         <SubmitBtn type="submit">Add contact</SubmitBtn>
       </StyledForm>
