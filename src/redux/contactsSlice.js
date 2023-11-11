@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addContact, fetchContacts } from "./operations";
+import { deleteContact,addContact, fetchContacts } from "./operations";
+import Notiflix from "notiflix";
 
 const initialState = {
   items: [],
@@ -32,10 +33,19 @@ const contactsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.items.push(action.payload);
+      Notiflix.Notify.success(`${action.payload.name} has been added to your contacts`);
     },
     [addContact.rejected]: handleRejected,
-  }
+    [deleteContact.pending]: handlePending,
+    [deleteContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const index = state.items.findIndex(task => task.id === action.payload.id);
+      state.items.splice(index, 1);
+      Notiflix.Notify.success(`${action.payload.name} has been deleted from your contacts`);
+    },
+    [deleteContact.rejected]: handleRejected,
+  },
 })
 
-export const { deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
